@@ -5,17 +5,13 @@ const patientSchema= new mongoose.Schema({
         type: String,
         required: true
     },
-    userID:{
-        type: String,
-        required: true
-    },
     heartRate:[{
         type: String,
         default: "Employee"
     }],
     temperature:{
-        type: Boolean,
-        default: true
+        type: Number,
+        required: true
     }
 })
 

@@ -9,11 +9,11 @@ const bcrypt= require('bcrypt')
 //@acccess private
 
 const getAllPatients= asyncHandler(async(req,res) =>{
-    const Patients= await Patient.find().lean()
+    const patients= await Patient.find().lean()
     if(!patients?.length){
         return res.status(400).json({message: "No Patients found"})
     }
-    res.json(users)
+    res.json(patients)
 })
 
 
@@ -24,7 +24,7 @@ const getAllPatients= asyncHandler(async(req,res) =>{
 const createNewPatient= asyncHandler( async(req,res) =>{
     const {username,heartRate,temperature} = req.body
     //confirm data
-    if(!username || !password || !Array.isArray(roles) || !roles.length){
+    if(!username || !temperature || !Array.isArray(heartRate) || !heartRate.length){
         return res.status(400).json({messsage:'All fields are required'})
     }
     //check for duplicates
@@ -40,7 +40,7 @@ const createNewPatient= asyncHandler( async(req,res) =>{
 
     const patient = await Patient.create(patientObject)
 
-    if(user){
+    if(patient){
         res.status(201).json({message:`New patient ${username} created`})
     }else{
         res.status(400).json({message: 'Invalid patient data received'})
@@ -53,13 +53,13 @@ const createNewPatient= asyncHandler( async(req,res) =>{
 //@acccess private
 
 const updatePatient= asyncHandler( async(req,res) =>{
-    const {userID,username,heartRate,temperature} = req.body
+    const {id,username,heartRate,temperature} = req.body
 
     //confirm data
-    if(!userID || !username || !Array.isArray(heartRate) || !heartRate.length ){
+    if(!id || !username || !Array.isArray(heartRate) || !heartRate.length ){
         return res.status(400).json({message:'All fields are required'})
     }
-    const patient = await Patient.findById(userID).exec()
+    const patient = await Patient.findById(id).exec()
     if(!patient){
         return res.status(400).json({message:'Patient not found'})
     }
@@ -67,7 +67,7 @@ const updatePatient= asyncHandler( async(req,res) =>{
     //check for duplicate
     const duplicate= await Patient.findOne({username}).lean().exec()
     //Allow updates to original user
-    if(duplicate && duplicate?._id.toString() !==userID){
+    if(duplicate && duplicate?._id.toString() !==id){
         return res.status(409).json({message:'Duplicate username'})
     }
     patient.username= username
@@ -86,8 +86,8 @@ const updatePatient= asyncHandler( async(req,res) =>{
 //@acccess private
 
 const deletePatient= asyncHandler( async(req,res) =>{
-    const {userID} = req.body
-    if(!userID){
+    const {id} = req.body
+    if(!id){
         return res.status(400).json({message:'Patient ID Required'})
     }
     
