@@ -72,7 +72,7 @@ const updatePatient= asyncHandler( async(req,res) =>{
     }
     patient.username= username
     patient.heartRate= heartRate
-    user.temperature= temperature
+    patient.temperature= temperature
 
     
 
