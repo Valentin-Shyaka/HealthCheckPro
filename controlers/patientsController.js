@@ -22,9 +22,9 @@ const getAllPatients= asyncHandler(async(req,res) =>{
 //@acccess private
 
 const createNewPatient= asyncHandler( async(req,res) =>{
-    const {username,heartRate,temperature} = req.body
+    const {username,blood_pressure,date,heartRate,temperature} = req.body
     //confirm data
-    if(!username || !temperature || !Array.isArray(heartRate) || !heartRate.length){
+    if(!username ||!blood_pressure  ||!temperature || !Array.isArray(heartRate) || !heartRate.length){
         return res.status(400).json({messsage:'All fields are required'})
     }
     //check for duplicates
@@ -33,8 +33,8 @@ const createNewPatient= asyncHandler( async(req,res) =>{
     if(duplicate){
         return res.status(409).json({message:'Patient already taken'})
     }
-   
-    const patientObject= {username,heartRate,temperature}
+    
+    const patientObject= {username,blood_pressure,heartRate,temperature,date}
 
     //Create and store new user
 
@@ -53,10 +53,10 @@ const createNewPatient= asyncHandler( async(req,res) =>{
 //@acccess private
 
 const updatePatient= asyncHandler( async(req,res) =>{
-    const {id,username,heartRate,temperature} = req.body
+    const {id,username,blood_pressure,heartRate,temperature} = req.body
 
     //confirm data
-    if(!id || !username || !Array.isArray(heartRate) || !heartRate.length ){
+    if(!id || !username || !blood_pressure || !Array.isArray(heartRate) || !heartRate.length ){
         return res.status(400).json({message:'All fields are required'})
     }
     const patient = await Patient.findById(id).exec()
@@ -72,6 +72,7 @@ const updatePatient= asyncHandler( async(req,res) =>{
     }
     patient.username= username
     patient.heartRate= heartRate
+    patient.blood_pressure= blood_pressure
     patient.temperature= temperature
 
     

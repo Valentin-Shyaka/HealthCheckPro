@@ -9,9 +9,17 @@ const patientSchema= new mongoose.Schema({
         type: String,
         default: "Employee"
     }],
+    blood_pressure:{
+        type: String,
+        required: true,
+    },
     temperature:{
         type: Number,
         required: true
+    },
+    date:{
+        type: Date,
+        default: new Date()
     }
 })
 
