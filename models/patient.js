@@ -20,7 +20,16 @@ const patientSchema= new mongoose.Schema({
     date:{
         type: Date,
         default: new Date()
-    }
+    },
+    patient_NID:{
+        type: String,
+        required: true
+    },
+    frequent_sickness:[{
+        type: String,
+        required: false
+
+    }]
 })
 
 module.exports= mongoose.model('patient',patientSchema)

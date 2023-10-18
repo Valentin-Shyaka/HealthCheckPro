@@ -26,6 +26,7 @@ app.use('/',express.static(path.join(__dirname,'/public')))
 
 app.use('/',require('./routes/root'))
 app.use('/patients',require('./routes/patientRoutes'))
+app.use('/patients/dashboard',require('./routes/dashboardRoutes'))
 
 app.all('*',(req,res)=>{
     res.status(404)
