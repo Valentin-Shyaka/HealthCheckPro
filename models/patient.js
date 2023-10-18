@@ -7,7 +7,7 @@ const patientSchema= new mongoose.Schema({
     },
     heartRate:[{
         type: String,
-        default: "Employee"
+        required: true
     }],
     blood_pressure:{
         type: String,

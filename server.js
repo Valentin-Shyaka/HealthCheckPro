@@ -12,6 +12,7 @@ const mongoose= require('mongoose')
 const {logevents}= require('./middleware/logger')
 const errorHandler = require('./middleware/errorHandler')
 const { removeAllListeners } = require('process')
+const {getAllPatients}=require('./controlers/patientsController')
 
 console.log(process.env.NODE_ENV)
 
@@ -26,7 +27,12 @@ app.use('/',express.static(path.join(__dirname,'/public')))
 
 app.use('/',require('./routes/root'))
 app.use('/patients',require('./routes/patientRoutes'))
-app.use('/patients/dashboard',require('./routes/dashboardRoutes'))
+
+
+app.get('/patients/dashboard', (req, res) => {
+    const responseData = getAllPatients().json()
+    res.json(responseData);
+});
 
 app.all('*',(req,res)=>{
     res.status(404)

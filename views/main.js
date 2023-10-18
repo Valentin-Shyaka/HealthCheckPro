@@ -1,15 +1,12 @@
-import { getAllPatients } from "../controlers/patientsController";
-
-import React from 'react'
-
-const Main = () => {
-    const shyaka= getAllPatients().findById("652ee15d7adfc0025513e9e2")
-  return (
-    <div>
-        <h1>{shyaka.username}</h1>
-    </div>
-  )
-}
-
-export default Main
-
+document.addEventListener('DOMContentLoaded', () => {
+  // Fetch data from the server
+  fetch('/patients')
+      .then((response) =>{ console.log(response.json())})
+      .then((patients) => {
+          // Update the view with the fetched data
+          const dataContainer = document.getElementById('data-container');
+          dataContainer.innerHTML = `Data from the server: ${patients[1].username}`;
+          
+      })
+      .catch((error) => console.error('Error fetching data:', error));
+});
